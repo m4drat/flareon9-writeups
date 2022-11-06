@@ -31,7 +31,7 @@ You probably won't win. Maybe you're like us and spent the year playing Wordle.
 We made our own version that is too hard to beat without cheating.
 ```
 
-__TLDR__: Nothing fancy, just an entry level challenge. The main idea is to find the correct word from sources. Can be solved using `strings`.
+__TLDR__: Nothing fancy, just an entry-level challenge. The main idea is to find the correct word from sources. Can be solved using `strings`.
 
 Writeup link: [🗿 flaredle](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#1--flaredle)
 
@@ -76,7 +76,7 @@ We’ve found an unknown executable on one of our hosts. The file has been there
 but our networking logs only show suspicious traffic on one day. Can you tell us what happened?
 ```
 
-__TLDR__: Reverse it all the way to the end. And either find random seed or spoof a hash value, to decrypt the flag.
+__TLDR__: Reverse it all the way to the end. And either find a random seed or spoof a hash value to decrypt the flag.
 
 Writeup link: [🔎 t8](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#5--t8)
 
@@ -88,7 +88,7 @@ FLARE FACT #824: Disregard flare fact #823 if you are a .NET Reverser too.
 We will now reward your fantastic effort with a small binary challenge. You've earned it kid!
 ```
 
-__TLDR__: Open it in IDA as a PE, and not as a .NET file. Find RC4 key and decrypt the flag. Profit!
+__TLDR__: Open it in IDA as a PE and not as a .NET file. Find the RC4 key and decrypt the flag. Profit!
 
 Writeup link: [🧪 alamode](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#6--alamode)
 
@@ -98,7 +98,7 @@ Writeup link: [🧪 alamode](https://m4drat.github.io/2022/11/12/flareon9-writeu
 You've made it so far! I can't believe it! And so many people are ahead of you!
 ```
 
-__TLDR__: Just, ... just do it! Seriously. Iteratively find all corner cases, deobfuscate further and further, and you will get clean flag constraints. In the end I've used bitwuzla-powered DSE to find the flag. (as far as I know, z3 couldn't solve it).
+__TLDR__: Just, ... just do it! Seriously. Iteratively find all corner cases, deobfuscate further and further, and you will get clean flag constraints. In the end, I used bitwuzla-powered DSE to find the flag. (as far as I know, z3 couldn't solve it).
 
 Writeup link: [🛸 anode](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#7--anode)
 
@@ -134,7 +134,7 @@ This application was written on a Power Macintosh 7300 using CodeWarrior Pro 5, 
 It was tested on a great many machines and emulators, and validated to run well on Mac OS from 6.0.8 through 10.4. Happy solving! Be curious!
 ```
 
-__TLDR__: Install the mini vMac and run the program. And either you are smart enough to try the first line of 99 Luftballons lyrics (__in Deutsche!__), or not. In the second case, just sit around for a while, get the idea how the check is done (it's a simple XOR), try known plaintext attack ("@flare-on.com"). Get part of the song lyrics, go to Google once again and find the rest of the lyrics. And you're all set.
+__TLDR__: Install the mini vMac and run the program. And either you are smart enough to try the first line of 99 Luftballons lyrics (__in Deutsche!__) or not (like me). In the second case, just sit around for a while, get an idea of how the check is done (it's a simple XOR), and try a known plaintext attack ("@flare-on.com"). Get part of the song lyrics, go to Google once again and find the rest of the lyrics. And you're all set.
 
 Writeup link: [💻 Nur_getraumt](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#10--nur_getraumt)
 
@@ -146,6 +146,6 @@ Protection, Obfuscation, Restrictions... Oh my!!
 The good part about this one is that if you fail to solve it I don't need to ship you a prize.
 ```
 
-__TLDR__: Open it in API Monitor, find out that it tries to connect to "http[:]//evil[.]flare-on.com/". Add entry to the hosts file. Rerun the program. Observe a request to the localhost. Find out that it is encrypted in some way. Try guessing. Maybe it's xor? Add breakpoints to the python's `xor` functions. Find out, that the number of XOR calls exactly matches the number of bytes in the flag. Use FRIDA to hook `xor` function and dump the flag. Profit!
+__TLDR__: Open it in API Monitor, find out that it tries to connect to "http[:]//evil[.]flare-on.com/". Add entry to the hosts file. Rerun the program. Observe a request to the localhost. Find out that it is encrypted in some way. Try guessing. Maybe it's xor? Add breakpoints to the python's `xor` functions. Find out that the number of XOR calls exactly matches the number of bytes in the flag. Use FRIDA to hook `xor` function and dump the flag. Profit!
 
 Writeup link: [📖 XXX](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#11--XXX)
