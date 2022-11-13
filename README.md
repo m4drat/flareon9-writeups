@@ -105,7 +105,7 @@ Writeup link: [🧪 alamode](https://m4drat.github.io/2022/11/12/flareon9-writeu
 Files list:
 
 - [crack.py](06_alamode/crack.py) - Decrypts the flag
-- [proxy.py](06_alamodedecode_strings.py) - Ida script to decrypt strings
+- [proxy.py](06_alamode/decode_strings.py) - Ida script to decrypt strings
 
 ### 7. 🛸 anode
 
@@ -161,6 +161,11 @@ Protection, Obfuscation, Restrictions... Oh my!!
 The good part about this one is that if you fail to solve it I don't need to ship you a prize.
 ```
 
-__TLDR__: Open it in API Monitor, find out that it tries to connect to "http[:]//evil[.]flare-on.com/". Add entry to the hosts file. Rerun the program. Observe a request to the localhost. Find out that it is encrypted in some way. Try guessing. Maybe it's xor? Add breakpoints to the python's `xor` functions. Find out that the number of XOR calls exactly matches the number of bytes in the flag. Use FRIDA to hook `xor` function and dump the flag. Profit!
+__TLDR__: Open it in API Monitor, and find out that it tries to connect to "http[:]//evil[.]flare-on.com/". Add an entry to the hosts file. Rerun the program. Observe a request to the localhost. Find out that it is encrypted in some way. Try guessing. Maybe it's xor? Add breakpoints to python's `xor` functions. Find out that the number of XOR calls exactly matches the number of bytes in the flag. Use FRIDA to hook `xor` function and dump the flag. Profit!
 
 Writeup link: [📖 XXX](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#11--XXX)
+
+Files list:
+
+- [crack.py](11_the_challenge_that_shall_not_be_named/hook-frida.js) - Frida script to hook `xor` function and dump the flag
+- [run_frida.py](11_the_challenge_that_shall_not_be_named/run_frida.py) - Python frida runner
