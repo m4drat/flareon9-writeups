@@ -66,6 +66,11 @@ __TLDR__: RET, RET, RET, ...
 
 Writeup link: [🔙 darn_mice](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#4--darn_mice)
 
+Files list:
+
+- [bruteforce.py](04_darn_mice/solve.py) - Finds "correct" argument value using byte-by-byte bruteforce
+- [solve.py](04_darn_mice/solve.py) - Actually finds correct argument value
+
 ### 5. 🔎 t8
 
 ```txt
@@ -80,6 +85,11 @@ __TLDR__: Reverse it all the way to the end. And either find a random seed or sp
 
 Writeup link: [🔎 t8](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#5--t8)
 
+Files list:
+
+- [crack.py](05_t8/crack.py) - Generates a hash to decrypt the flag
+- [proxy.py](05_t8/proxy.py) - Packets replier
+
 ### 6. 🧪 alamode
 
 ```txt
@@ -91,6 +101,11 @@ We will now reward your fantastic effort with a small binary challenge. You've e
 __TLDR__: Open it in IDA as a PE and not as a .NET file. Find the RC4 key and decrypt the flag. Profit!
 
 Writeup link: [🧪 alamode](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#6--alamode)
+
+Files list:
+
+- [crack.py](06_alamode/crack.py) - Decrypts the flag
+- [proxy.py](06_alamodedecode_strings.py) - Ida script to decrypt strings
 
 ### 7. 🛸 anode
 
