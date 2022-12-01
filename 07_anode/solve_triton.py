@@ -49,7 +49,7 @@ def solve_constraints(ctx: "TritonContext") -> Optional[bytes]:
     return bytes([k.getValue() for _, k in list(sorted(model.items()))])
 
 
-def emulate(ctx: "TritonContext", pc) -> Tuple[int, Optional[bytes]]:
+def emulate(ctx: "TritonContext", pc) -> int:
     count = 0
     while pc:
         # Fetch opcodes
@@ -58,18 +58,19 @@ def emulate(ctx: "TritonContext", pc) -> Tuple[int, Optional[bytes]]:
         instruction = Instruction(pc, opcodes)
         if ctx.processing(instruction) == EXCEPTION.FAULT_UD:
             print(f"[-] Instruction is not supported: {instruction}")
-        count += 1
+            break
 
+        count += 1
         print(instruction)
 
+        # Early exit, we reached the "end" of the function that processes the flag
         if instruction.getAddress() == 0x40B848:
-            print("Solving constraints...")
-            return (count, solve_constraints(ctx))
+            break
 
         # Get next pc
         pc = ctx.getConcreteRegisterValue(ctx.registers.rip)
 
-    return (count, None)
+    return count
 
 
 def load_binary(ctx: "TritonContext", binary):
@@ -99,10 +100,12 @@ def run(ctx: "TritonContext"):
         ctx.symbolizeMemory(MemoryAccess(BASE_STACK + i, CPUSIZE.BYTE))
 
     print("[+] Starting emulation.")
-    total_instructions, flag = emulate(ctx, CALCULATIONS_START)
+    total_instructions = emulate(ctx, CALCULATIONS_START)
     print(
         f"[+] Emulation completed. Instructions executed: {total_instructions}")
 
+    print("[+] Trying to solve the constraints.")
+    flag = solve_constraints(ctx)
     if flag:
         print(f"[+] Flag: {flag.decode()}")
     else:
