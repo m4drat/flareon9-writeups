@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Author: madrat
 
-import random
-import string
-
 
 def crc16_ccitt(data):
     crc = 0xFFFF

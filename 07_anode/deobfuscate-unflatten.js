@@ -1,6 +1,3 @@
-// 1. Total iterations - 1565
-// 2. True branch for regular ints is never executed
-
 let path = 'check_flag_standalone-bak.js' // process.argv[2];
 let esprima = require('esprima');
 let fs = require('fs');
@@ -70,21 +67,5 @@ if (b.every((x, i) => x === target[i])) {
   console.log("Try again.");
 }\n
 });`;
-
-// cleanedUp = estraverse.replace(tree, {
-//     enter: function (node, parent) {
-//         if (node.type == 'FunctionDeclaration') {
-//             if (!allCallExpr.has(node.id.name)) {
-//                 // console.log(`The function ${node.id.name} was never called ${totalAmounUnusedFunctions++}`);
-//                 return estraverse.VisitorOption.Remove;
-//             }
-//         }
-//     }
-// });
-
-// var formattedCode = astring.generate(cleanedUp);
-// console.log(`Code size after ${formattedCode.length}.`);
-// console.log(`Reduced by ${(sizeBeforeCleanup - formattedCode.length) / sizeBeforeCleanup * 100}%`);
-// console.log(`The total number of unused functions: ${totalAmounUnusedFunctions}`);
 
 fs.writeFileSync('check_flag_standalone_unflattened.js', new_code);

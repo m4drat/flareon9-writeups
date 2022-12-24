@@ -1,6 +1,3 @@
-// 1. Total iterations - 1565
-// 2. True branch for regular ints is never executed
-
 let path = 'check_flag_standalone_unflattened_replaced_rand_calls.js' // process.argv[2];
 let esprima = require('esprima');
 let fs = require('fs');
@@ -27,9 +24,5 @@ deobfuscated = estraverse.replace(tree, {
 });
 
 console.log('Replaced ' + total_replaced + ' floor calls');
-
-// console.log(`Code size after ${formattedCode.length}.`);
-// console.log(`Reduced by ${(sizeBeforeCleanup - formattedCode.length) / sizeBeforeCleanup * 100}%`);
-// console.log(`The total number of unused functions: ${totalAmounUnusedFunctions}`);
 
 fs.writeFileSync('check_flag_standalone_unflattened_replaced_floor.js', astring.generate(deobfuscated));

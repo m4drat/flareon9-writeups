@@ -73,8 +73,4 @@ deobfuscated = estraverse.replace(tree, {
 console.log('Replaced ' + total_replaced + ' random calls');
 console.log('Random index: ' + random_idx);
 
-// console.log(`Code size after ${formattedCode.length}.`);
-// console.log(`Reduced by ${(sizeBeforeCleanup - formattedCode.length) / sizeBeforeCleanup * 100}%`);
-// console.log(`The total number of unused functions: ${totalAmounUnusedFunctions}`);
-
 fs.writeFileSync('check_flag_standalone_unflattened_replaced_rand_calls.js', astring.generate(deobfuscated));

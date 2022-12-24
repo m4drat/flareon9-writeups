@@ -3,11 +3,11 @@
 
 
 import lief
-from typing import Tuple, Optional
+from typing import Optional
 from triton import *
 
 try:
-    from triton_autocomplete import Instruction, TritonContext, CPUSIZE, MODE, ARCH, SOLVER_STATE, EXCEPTION, MemoryAccess, STUBS, SOLVER
+    from triton_autocomplete import Instruction, TritonContext, CPUSIZE, MODE, ARCH, SOLVER_STATE, EXCEPTION, MemoryAccess, SOLVER
 except (ImportError, AttributeError):
     pass
 
@@ -50,6 +50,7 @@ def solve_constraints(ctx: "TritonContext") -> Optional[bytes]:
 
 
 def emulate(ctx: "TritonContext", pc) -> int:
+    """Emulate the binary until the end of the flag transformations. Return the number of instructions executed."""
     count = 0
     while pc:
         # Fetch opcodes
@@ -74,6 +75,7 @@ def emulate(ctx: "TritonContext", pc) -> int:
 
 
 def load_binary(ctx: "TritonContext", binary):
+    """Load the binary into Triton."""
     phdrs = binary.segments
     for phdr in phdrs:
         size = phdr.physical_size
@@ -83,6 +85,7 @@ def load_binary(ctx: "TritonContext", binary):
 
 
 def run(ctx: "TritonContext"):
+    """Setup context, run the emulation and solve the constraints."""
     # Concretize context
     ctx.concretizeAllMemory()
     ctx.concretizeAllRegister()

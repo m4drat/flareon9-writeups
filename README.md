@@ -117,6 +117,14 @@ __TLDR__: Just, ... just do it! Seriously. Iteratively find all corner cases, de
 
 Writeup link: [🛸 anode](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#7--anode)
 
+Files list:
+
+- [solve_angr.py](07_anode/solve_angr.py) - Angr-powered solver (didn't work)
+- [solve_triton.py](07_anode/solve_triton.py) - Triton-powered solver (successfully found the flag)
+- [deobfuscate-unflatten.js](07_anode/deobfuscate-unflatten.js) - Deobfuscation script part 1
+- [deobfuscate-optimize-rand-inlining.js](07_anode/deobfuscate-optimize-rand-inlining.js) - Deobfuscation script part 2
+- [deobfuscate-constant-propagation.js](07_anode/deobfuscate-constant-propagation.js) - Deobfuscation script part 3
+
 ### 8. 💀 backdoor
 
 ```txt
@@ -127,6 +135,12 @@ __TLDR__: That was a HELL! The most time-consuming challenge for me. I've spent 
 
 Writeup link: [💀 backdoor](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#8--backdoor)
 
+Files list:
+
+- [Deobfuscator](08_backdoor/Deobfuscator/Deobfuscator) - C# dnlib-based deobfuscator
+- [Deobfuscator](08_backdoor/Deobfuscator/Implant) - C# dll implant
+- [Deobfuscator](08_backdoor/Deobfuscator/ProxyImplant) - C# dll implant
+
 ### 9. 🗝 encryptor
 
 ```txt
@@ -136,6 +150,10 @@ You're really crushing it to get this far. This is probably the end for you. Bet
 __TLDR__: This is an RSA challenge. However, the flag was encrypted using a private exponent, and you're given a public one. So you can simply decrypt the flag using the public exponent. That's how RSA works.
 
 Writeup link: [🗝 encryptor](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#9--encryptor)
+
+Files list:
+
+- [decryptor.py](09_encryptor/decryptor.py) - Restores ChaCha key and decrypts the flag
 
 ### 10. 💻 Nur_getraumt
 
@@ -152,6 +170,10 @@ It was tested on a great many machines and emulators, and validated to run well 
 __TLDR__: Install the mini vMac and run the program. And either you are smart enough to try the first line of 99 Luftballons lyrics (__in Deutsche!__) or not (like me). In the second case, just sit around for a while, get an idea of how the check is done (it's a simple XOR), and try a known plaintext attack ("@flare-on.com"). Get part of the song lyrics, go to Google once again and find the rest of the lyrics. And you're all set.
 
 Writeup link: [💻 Nur_getraumt](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#10--nur_getraumt)
+
+Files list:
+
+- [crack.py](10_Nur_getraumt/crack.py) - Performs a known plaintext attack
 
 ### 11. 📖 XXX
 
