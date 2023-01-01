@@ -31,7 +31,7 @@ You probably won't win. Maybe you're like us and spent the year playing Wordle.
 We made our own version that is too hard to beat without cheating.
 ```
 
-__TLDR__: Nothing fancy, just an entry-level challenge. The main idea is to find the correct word from sources. Can be solved using `strings`.
+__TLDR__: The hardest challenge ever.... No way you could solve it with `strings`.
 
 Writeup link: [🗿 flaredle](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#1--flaredle)
 
@@ -138,8 +138,8 @@ Writeup link: [💀 backdoor](https://m4drat.github.io/2022/11/12/flareon9-write
 Files list:
 
 - [Deobfuscator](08_backdoor/Deobfuscator/Deobfuscator) - C# dnlib-based deobfuscator
-- [Deobfuscator](08_backdoor/Deobfuscator/Implant) - C# dll implant
-- [Deobfuscator](08_backdoor/Deobfuscator/ProxyImplant) - C# dll implant
+- [Implant](08_backdoor/Deobfuscator/Implant) - C# dll implant
+- [ProxyImplant](08_backdoor/Deobfuscator/ProxyImplant) - C# dll proxy implant (loads the Implant)
 
 ### 9. 🗝 encryptor
 
