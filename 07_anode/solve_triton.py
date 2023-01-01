@@ -7,7 +7,17 @@ from typing import Optional
 from triton import *
 
 try:
-    from triton_autocomplete import Instruction, TritonContext, CPUSIZE, MODE, ARCH, SOLVER_STATE, EXCEPTION, MemoryAccess, SOLVER
+    from triton_autocomplete import (
+        Instruction,
+        TritonContext,
+        CPUSIZE,
+        MODE,
+        ARCH,
+        SOLVER_STATE,
+        EXCEPTION,
+        MemoryAccess,
+        SOLVER,
+    )
 except (ImportError, AttributeError):
     pass
 
@@ -26,11 +36,14 @@ def build_model_and_solve(ctx: "TritonContext"):
     ast = ctx.getAstContext()
     expr = ast.land(
         # Constraints on the result
-        [ctx.getSymbolicMemory(BASE_STACK + i).getAst() == b for i, b in enumerate(TARGET)] +
+        [
+            ctx.getSymbolicMemory(BASE_STACK + i).getAst() == b
+            for i, b in enumerate(TARGET)
+        ]
+        +
         # Constraints on the original symbolic variables (we want to make sure the flag is printable)
-        [ast.variable(ctx.getSymbolicVariable(i)) >= 0x20 for i in range(FLAG_LEN)] +
-        [ast.variable(ctx.getSymbolicVariable(i)) <= 0x7F
-         for i in range(FLAG_LEN)]
+        [ast.variable(ctx.getSymbolicVariable(i)) >= 0x20 for i in range(FLAG_LEN)]
+        + [ast.variable(ctx.getSymbolicVariable(i)) <= 0x7F for i in range(FLAG_LEN)]
     )
 
     return ctx.getModel(expr, status=True)
@@ -104,8 +117,7 @@ def run(ctx: "TritonContext"):
 
     print("[+] Starting emulation.")
     total_instructions = emulate(ctx, CALCULATIONS_START)
-    print(
-        f"[+] Emulation completed. Instructions executed: {total_instructions}")
+    print(f"[+] Emulation completed. Instructions executed: {total_instructions}")
 
     print("[+] Trying to solve the constraints.")
     flag = solve_constraints(ctx)
@@ -117,7 +129,7 @@ def run(ctx: "TritonContext"):
     # Get processed result
     print(
         "[+] Processed buffer: ",
-        list(ctx.getConcreteMemoryAreaValue(BASE_STACK, FLAG_LEN))
+        list(ctx.getConcreteMemoryAreaValue(BASE_STACK, FLAG_LEN)),
     )
 
 

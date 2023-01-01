@@ -5,7 +5,7 @@ import idc
 
 
 def decrypt_str(s: bytes) -> bytes:
-    return b''.join(bytes([b ^ 0x17]) for b in s)
+    return b"".join(bytes([b ^ 0x17]) for b in s)
 
 
 def string_len(addr: int) -> int:

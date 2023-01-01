@@ -3097,12 +3097,12 @@ int main(int argc, char *argv[]) {
 
   puts("");
 
-//   for (int i = 0; i < 44; i++) {
-//     if (flag_ptr[i] != target[i]) {
-//       printf("Wrong flag!\n");
-//       return 1;
-//     }
-//   }
+  // for (int i = 0; i < 44; i++) {
+  //   if (flag_ptr[i] != target[i]) {
+  //     printf("Wrong flag!\n");
+  //     return 1;
+  //   }
+  // }
 
   if (memcmp(flag_ptr, target, 44) == 0) {
     printf("Correct flag!\n");

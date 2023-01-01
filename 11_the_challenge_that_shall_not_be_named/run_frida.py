@@ -8,14 +8,27 @@ import frida
 class Application:
     def __init__(self):
         self._stop_requested = threading.Event()
-        self._reactor = Reactor(run_until_return=lambda reactor: self._stop_requested.wait())
+        self._reactor = Reactor(
+            run_until_return=lambda reactor: self._stop_requested.wait()
+        )
 
         self._device = frida.get_local_device()
         self._sessions = set()
 
-        self._device.on("child-added", lambda child: self._reactor.schedule(lambda: self._on_child_added(child)))
-        self._device.on("child-removed", lambda child: self._reactor.schedule(lambda: self._on_child_removed(child)))
-        self._device.on("output", lambda pid, fd, data: self._reactor.schedule(lambda: self._on_output(pid, fd, data)))
+        self._device.on(
+            "child-added",
+            lambda child: self._reactor.schedule(lambda: self._on_child_added(child)),
+        )
+        self._device.on(
+            "child-removed",
+            lambda child: self._reactor.schedule(lambda: self._on_child_removed(child)),
+        )
+        self._device.on(
+            "output",
+            lambda pid, fd, data: self._reactor.schedule(
+                lambda: self._on_output(pid, fd, data)
+            ),
+        )
 
     def run(self):
         self._reactor.schedule(lambda: self._start())
@@ -39,14 +52,22 @@ class Application:
     def _instrument(self, pid):
         print(f"✔ attach(pid={pid})")
         session = self._device.attach(pid)
-        session.on("detached", lambda reason: self._reactor.schedule(lambda: self._on_detached(pid, session, reason)))
+        session.on(
+            "detached",
+            lambda reason: self._reactor.schedule(
+                lambda: self._on_detached(pid, session, reason)
+            ),
+        )
         print("✔ enable_child_gating()")
         session.enable_child_gating()
         print("✔ create_script()")
-        script = session.create_script(
-            open("hook-frida.js", "r").read()
+        script = session.create_script(open("hook-frida.js", "r").read())
+        script.on(
+            "message",
+            lambda message, data: self._reactor.schedule(
+                lambda: self._on_message(pid, message)
+            ),
         )
-        script.on("message", lambda message, data: self._reactor.schedule(lambda: self._on_message(pid, message)))
         print("✔ load()")
         script.load()
         print(f"✔ resume(pid={pid})")
