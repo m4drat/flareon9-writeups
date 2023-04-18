@@ -1,14 +1,14 @@
-# FlareOn-9 Writeups
+# FlareOn-9 Write-ups
 
 <p align="center">
-<img src="https://cdn.cloud.ctfd.io/flare-on9/themes/flare_on_theme_2021/static/images/flare-on.svg?t=1634948686" width="50%">
+<img src="./assets/flare-logo-2022.png" width="50%">
 </p>
 
-This repo contatins scripts/programs that I developed during the [FLAREON-9](http://flare-on.com/).
+This repo contains scripts/programs that I developed during the [FLAREON-9](http://flare-on.com/).
 
-Many thank's to the FLARE team. It was an interesting journey and I liked it a lot :D
+Many thanks to the FLARE team. It was an interesting journey and I liked it a lot :D
 
-Read original writeups here: [flareon9-writeups](https://m4drat.github.io/2022/11/12/flareon9-writeups.html).
+Read original write-ups here: [flareon9-writeups](https://m4drat.github.io/2022/11/12/flareon9-writeups.html).
 
 ## Challenges
 
@@ -69,7 +69,7 @@ Writeup link: [🔙 darn_mice](https://m4drat.github.io/2022/11/12/flareon9-writ
 Files list:
 
 - [bruteforce.py](04_darn_mice/solve.py) - Finds "correct" argument value using byte-by-byte bruteforce
-- [solve.py](04_darn_mice/solve.py) - Actually finds correct argument value
+- [solve.py](04_darn_mice/solve.py) - Finds correct argument value
 
 ### 5. 🔎 t8
 
@@ -113,7 +113,7 @@ Files list:
 You've made it so far! I can't believe it! And so many people are ahead of you!
 ```
 
-__TLDR__: Just, ... just do it! Seriously. Iteratively find all corner cases, deobfuscate further and further, and you will get clean flag constraints. In the end, I used bitwuzla-powered DSE to find the flag. (as far as I know, z3 couldn't solve it).
+__TLDR__: Just, ... just do it! Seriously. Iteratively find all corner cases, deobfuscate further and further, and you will get clean flag constraints. In the end, I used bitwuzla-powered DSE to find the flag.
 
 Writeup link: [🛸 anode](https://m4drat.github.io/2022/11/12/flareon9-writeups.html#7--anode)
 
@@ -138,8 +138,8 @@ Writeup link: [💀 backdoor](https://m4drat.github.io/2022/11/12/flareon9-write
 Files list:
 
 - [Deobfuscator](08_backdoor/Deobfuscator/Deobfuscator) - C# dnlib-based deobfuscator
-- [Implant](08_backdoor/Deobfuscator/Implant) - C# dll implant
-- [ProxyImplant](08_backdoor/Deobfuscator/ProxyImplant) - C# dll proxy implant (loads the Implant)
+- [Implant](08_backdoor/Deobfuscator/Implant) - C# DLL implant
+- [ProxyImplant](08_backdoor/Deobfuscator/ProxyImplant) - C# DLL proxy implant (loads the Implant)
 
 ### 9. 🗝 encryptor
 
@@ -190,4 +190,4 @@ Writeup link: [📖 XXX](https://m4drat.github.io/2022/11/12/flareon9-writeups.h
 Files list:
 
 - [crack.py](11_the_challenge_that_shall_not_be_named/hook-frida.js) - Frida script to hook `xor` function and dump the flag
-- [run_frida.py](11_the_challenge_that_shall_not_be_named/run_frida.py) - Python frida runner
+- [run_frida.py](11_the_challenge_that_shall_not_be_named/run_frida.py) - Python Frida runner

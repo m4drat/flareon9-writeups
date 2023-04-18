@@ -15,49 +15,26 @@ namespace Deobfuscator
     internal class DnlibPatcher
     {
         /// <summary>
-        /// The obfuscated call base class. It contains the information about the obfuscated call (e.g. the target method, the origin method, the dispatcher method)
+        /// The obfuscated call with arguments class, inherits from ObfuscatedCall.
+        /// Holds the information about the obfuscated call with arguments.
         /// </summary>
         public class ObfuscatedCall
         {
-            public ObfuscatedCall(MethodDef target, MethodDef origin, MethodDef dispatcher)
+            public ObfuscatedCall(MethodDef target, MethodDef origin, MethodDef dispatcher, Dictionary<uint, int> keys, byte[] code)
             {
                 this.target = target;
                 this.origin = origin;
                 this.dispatcher = dispatcher;
+                this.keys = keys;
+                this.code = code;
             }
 
             public MethodDef target;
             public MethodDef origin;
             public MethodDef dispatcher;
-        }
-
-        /// <summary>
-        /// The obfuscated call with arguments class, inherits from ObfuscatedCall.
-        /// Holds the information about the obfuscated call with arguments.
-        /// </summary>
-        public class ObfuscatedCallWithArgs : ObfuscatedCall
-        {
-            public ObfuscatedCallWithArgs(MethodDef target, MethodDef origin, MethodDef dispatcher, Dictionary<uint, int> keys, byte[] code)
-                : base(target, origin, dispatcher)
-            {
-                this.keys = keys;
-                this.code = code;
-            }
 
             public Dictionary<uint, int> keys;
             public byte[] code;
-        }
-
-        /// <summary>
-        /// The obfuscated call without arguments class, inherits from ObfuscatedCall.
-        /// Holds the information about the obfuscated call without arguments.
-        /// </summary>
-        public class ObfuscatedCallNoArgs : ObfuscatedCall
-        {
-            public ObfuscatedCallNoArgs(MethodDef target, MethodDef origin, MethodDef dispatcher)
-                : base(target, origin, dispatcher)
-            {
-            }
         }
 
         string inputFile;
@@ -254,12 +231,12 @@ namespace Deobfuscator
         }
 
         /// <summary>
-        /// Deobfuscates the method body. This is the main method of the deobfuscator.
+        /// Deobfuscation of the method body. This is the main method of the deobfuscator.
         /// </summary>
         /// <param name="funcName"> The name of the method to deobfuscate. </param>
         private void FixFlared(string funcName)
         {
-            // First we find the method by its name. This is the method we want to deobfuscate.
+            // First we find a method by its name. This is the method we want to deobfuscate.
             var method = FindMethodByName(funcName);
 
             // Then we load the encrypted method body from the assembly and decrypt it.
@@ -369,7 +346,7 @@ namespace Deobfuscator
             // We need to avoid some methods because they are not obfuscated methods.
             // They are used to call the obfuscated methods.
             const string mainDispatcher = "flare_71";
-            const string basicDispatcher = "flare_70";
+
             // We also need to avoid some methods as they are not obfuscated.
             List<string> avoidMethods = new List<string> { mainDispatcher, "flare_74" };
 
@@ -427,17 +404,12 @@ namespace Deobfuscator
                                     }
 
                                     // Add the information about the obfuscated call to the list.
-                                    obfuscatedCallsInfos.Add(new ObfuscatedCallWithArgs(
+                                    obfuscatedCallsInfos.Add(new ObfuscatedCall(
                                         outgoingCalls.First(),
                                         method,
                                         outgoingCalls.Last(),
                                         dict,
                                         code));
-                                }
-                                else if (outgoingCalls.Last().FullName.Contains(basicDispatcher))
-                                {
-                                    // If the call is to the basic dispatcher (flare_70) we don't need to do anything special.
-                                    obfuscatedCallsInfos.Add(new ObfuscatedCallNoArgs(outgoingCalls.First(), method, outgoingCalls.Last()));
                                 }
                             }
                         }
@@ -513,43 +485,39 @@ namespace Deobfuscator
             // Now we want to process each proxy-call and replace it with the original function call.
             foreach (var oci in obfuscatedCallsInfos)
             {
-                Console.WriteLine("Processing method: {0} ({1}) -> {2} (Exc: {3})", oci.origin.Name, oci.dispatcher.Name, oci.target.Name, oci.target.Body.HasExceptionHandlers);
-                // Get the flags of the original method.
-                var flags_to_replace = GetMethodFlags(oci.target);
-
                 // Check if we are dealing with a call to the main dispatcher (flare_71).
                 if (oci.dispatcher.Name == "flare_71")
                 {
-                    // Because the main dispatcher is used, we are dealing with a call to a method with arguments.
-                    var ocp = oci as ObfuscatedCallWithArgs;
-                    Debug.Assert(ocp != null);
-
+                    Console.WriteLine("Processing method: {0} ({1}) -> {2} (Exc: {3})", oci.origin.Name, oci.dispatcher.Name, oci.target.Name, oci.target.Body.HasExceptionHandlers);
+                    // Get the flags of the original method.
+                    var flags_to_replace = GetMethodFlags(oci.target);
+                    
                     // We need to fix the call targets in the method called by the proxy function.
-                    byte[] fixedMethodBody = FixCallTargets(ocp.code, ocp.keys);
+                    byte[] fixedMethodBody = FixCallTargets(oci.code, oci.keys);
 
                     // We need to create a new CilBody for the fixed method.
                     CilBody body = MethodBodyReader.CreateCilBody(
                         this.inputModule,
                         fixedMethodBody,
                         fixedMethodBody,
-                        ocp.target.Parameters,
+                        oci.target.Parameters,
                         (ushort)(flags_to_replace),
-                        ocp.target.Body.MaxStack,
+                        oci.target.Body.MaxStack,
                         (uint)fixedMethodBody.Length,
-                        ocp.target.Body.LocalVarSigTok,
+                        oci.target.Body.LocalVarSigTok,
                         new GenericParamContext(),
                         this.inputModule.Context);
 
                     if (body.Instructions.Count == 0)
                     {
                         throw new InvalidOperationException(
-                            String.Format("Code generation for method {0} failed!", ocp.target.Name));
+                            String.Format("Code generation for method {0} failed!", oci.target.Name));
                     }
 
-                    Console.WriteLine("Successfully generated new code for {0}", ocp.target.Name);
+                    Console.WriteLine("Successfully generated new code for {0}", oci.target.Name);
 
                     // Replace the body of the original method with the new body.
-                    ocp.target.Body = body;
+                    oci.target.Body = body;
                 }
             }
 

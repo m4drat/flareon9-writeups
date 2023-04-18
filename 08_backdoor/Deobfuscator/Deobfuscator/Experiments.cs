@@ -79,7 +79,7 @@ namespace Deobfuscator
 
         public static void Perform()
         {
-            Empty();
+            //Empty();
 
             Type[] helloArgs = { typeof(string), typeof(int) };
             DynamicMethod hello = new DynamicMethod("",
@@ -94,7 +94,8 @@ namespace Deobfuscator
             ILGenerator il = hello.GetILGenerator(256);
             il.Emit(OpCodes.Ldarg_0);
             //il.EmitCall(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }), null);
-            il.EmitCall(OpCodes.Call, typeof(Program).GetMethod("PrintStacktrace"), null);
+            var method = typeof(Experiments).GetMethod("PrintStacktrace");
+            il.EmitCall(OpCodes.Call, method, null);
             il.Emit(OpCodes.Ldarg_1);
             il.Emit(OpCodes.Ret);
 
